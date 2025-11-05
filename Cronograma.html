@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ruta Chiloé & Región de los Lagos — Versión móvil unificada</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    :root{
+      --azul:#667eea; --morado:#764ba2; --bg:#f5f7fb; --card:#ffffff;
+      --text:#1f2937; --muted:#6b7280; --shadow:0 6px 24px rgba(17,24,39,.08);
+      --radius:16px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Ubuntu,"Helvetica Neue",Arial;background:var(--bg);color:var(--text);line-height:1.35;}
+    .header{background:linear-gradient(135deg,var(--azul),var(--morado));color:#fff;padding:18px 16px 14px;position:sticky;top:0;z-index:10;box-shadow:var(--shadow)}
+    .header h1{font-size:20px;font-weight:800;margin-bottom:6px}.header p{font-size:13px;opacity:.95}
+    .tabs{display:flex;background:#fff;border-radius:12px;padding:6px;margin:12px 12px 0;box-shadow:var(--shadow);gap:6px;position:sticky;top:68px;z-index:9}
+    .tab-btn{flex:1;border:0;background:transparent;padding:10px 12px;border-radius:10px;font-weight:700;color:var(--muted)}
+    .tab-btn.active{background:linear-gradient(135deg,#eef2ff,#ede9fe);color:#374151}
+    .view{display:none;padding:12px}.view.active{display:block;}
+    #map{width:100%;height:52vh;border-radius:14px;box-shadow:var(--shadow)}
+    .summary{margin:12px 0;display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+    .kpi{background:var(--card);border-radius:12px;padding:10px;text-align:center;box-shadow:var(--shadow)}
+    .kpi .v{font-size:18px;font-weight:800;color:var(--azul)} .kpi .l{font-size:11px;color:var(--muted)}
+    .grid{display:grid;grid-template-columns:1fr;gap:12px}
+    .card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px;border-left:5px solid transparent}
+    .head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+    .num{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:800}
+    .title{flex:1}.title h3{font-size:16px}.title .date{font-size:12px;color:var(--muted)}
+    .badge{font-size:11px;background:#eef2ff;border-radius:999px;padding:4px 8px;color:#374151;font-weight:700}
+    .stop{display:flex;gap:10px;margin:8px 0;background:#f8fafc;padding:8px;border-radius:10px}
+    .stop .i{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:#111827;color:#fff;font-size:11px;font-weight:800}
+    .stop .d{flex:1}.stop .d .n{font-weight:700;font-size:13px}.stop .d .t{font-size:12px;color:var(--muted)}
+    .pet{margin-left:auto;font-size:18px}.pet.ok{color:#16a34a}.pet.no{color:#dc2626}.pet.car{color:#d97706}
+    .legend{margin-top:8px;background:#fff7ed;border:1px solid #fed7aa;border-radius:12px;padding:12px;box-shadow:var(--shadow)}
+    .legend .row{display:flex;align-items:center;gap:8px;margin:4px 0;font-size:14px}.legend .ico{font-size:18px}
+    .fab{position:fixed;right:14px;bottom:14px;z-index:11;background:linear-gradient(135deg,var(--azul),var(--morado));color:#fff;border:0;border-radius:999px;padding:12px 14px;font-weight:800;box-shadow:var(--shadow)}
+    @media (min-width:900px){#map{height:68vh}.grid{grid-template-columns:repeat(2,1fr)}.tabs{top:76px;max-width:1080px;margin-left:auto;margin-right:auto}.view{max-width:1080px;margin:0 auto}}
+    .d1{border-left-color:#FF6B6B}.n1{background:#FF6B6B}
+    .d2{border-left-color:#4ECDC4}.n2{background:#4ECDC4}
+    .d3{border-left-color:#45B7D1}.n3{background:#45B7D1}
+    .d4{border-left-color:#96CEB4}.n4{background:#96CEB4}
+    .d5{border-left-color:#FECA57}.n5{background:#FECA57}
+    .d6{border-left-color:#9B59B6}.n6{background:#9B59B6}
+  </style>
+</head>
+<body>
+  <header class="header">
+    <h1>🚗 Chiloé & Región de los Lagos 🐕</h1>
+    <p>Cabaña base entre Nercón y Chonchi</p>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Vistas">
+    <button class="tab-btn active" data-target="#vista-mapa" role="tab" aria-selected="true">🗺️ Mapa</button>
+    <button class="tab-btn" data-target="#vista-crono" role="tab" aria-selected="false">🗒️ Cronograma</button>
+  </nav>
+
+  <section id="vista-mapa" class="view active" role="tabpanel" aria-labelledby="tab-mapa">
+    <div id="map" aria-label="Mapa de ruta"></div>
+    <div class="summary" aria-label="Resumen del viaje">
+      <div class="kpi"><div class="v">6</div><div class="l">Días</div></div>
+      <div class="kpi"><div class="v">30</div><div class="l">Paradas</div></div>
+      <div class="kpi"><div class="v">≈2,200</div><div class="l">Km totales</div></div>
+      <div class="kpi"><div class="v">3 + 2</div><div class="l">Noches (Base + Llanquihue)</div></div>
+    </div>
+  </section>
+
+  <section id="vista-crono" class="view" role="tabpanel" aria-labelledby="tab-crono">
+    <div class="grid">
+      <!-- DÍA 1 -->
+      <article class="card d1">
+        <div class="head">
+          <div class="num n1">1</div>
+          <div class="title">
+            <h3>Llegada a Chiloé (norte) y traslado a Cabaña</h3>
+            <div class="date">Sábado</div>
+          </div>
+          <span class="badge">~370 km</span>
+        </div>
+        <div class="stop"><div class="i">1.1</div><div class="d"><div class="n">Traiguén → Puerto Montt</div><div class="t">Bus nocturno (Vie 21:00)</div></div></div>
+        <div class="stop"><div class="i">1.2</div><div class="d"><div class="n">Puerto Montt</div><div class="t">Llegada 3:00, desayuno 6:00</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">1.3</div><div class="d"><div class="n">Pargua - Ferry</div><div class="t">08:30 (30 min)</div></div><div class="pet car">🚗</div></div>
+        <div class="stop"><div class="i">1.4</div><div class="d"><div class="n">Ancud (centro)</div><div class="t">11:00-12:00</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">1.5</div><div class="d"><div class="n">Puñihuil - Pingüinos</div><div class="t">14:00-16:00</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">1.6</div><div class="d"><div class="n">Castro - Palafitos Gamboa</div><div class="t">18:00-19:00</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">1.7</div><div class="d"><div class="n">Cabaña (Nercón–Chonchi)</div><div class="t">19:30 Check-in</div></div><div class="pet ok">✓</div></div>
+      </article>
+
+      <!-- DÍA 2 (CORREGIDO) -->
+      <article class="card d2">
+        <div class="head">
+          <div class="num n2">2</div>
+          <div class="title">
+            <h3>Chonchi → Vilupulli → Nercón → Curanto Dalcahue → Achao</h3>
+            <div class="date">Domingo</div>
+          </div>
+          <span class="badge">~150 km</span>
+        </div>
+        <div class="stop"><div class="i">2.1</div><div class="d"><div class="n">Base (Nercón–Chonchi)</div><div class="t">08:30 Salida</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">2.2</div><div class="d"><div class="n">Chonchi - Plaza e Iglesia</div><div class="t">09:00</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">2.3</div><div class="d"><div class="n">Vilupulli - Iglesia</div><div class="t">10:00</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">2.4</div><div class="d"><div class="n">Nercón - Iglesia patrimonial</div><div class="t">10:45</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">2.5</div><div class="d"><div class="n">Dalcahue - Curanto en hoyo</div><div class="t">12:30-13:30</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">2.6</div><div class="d"><div class="n">Achao - Iglesia y paseo</div><div class="t">15:00</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">2.7</div><div class="d"><div class="n">Regreso a Cabaña</div><div class="t">18:30 🏠</div></div><div class="pet ok">✓</div></div>
+      </article>
+
+      <!-- DÍA 3 -->
+      <article class="card d3">
+        <div class="head">
+          <div class="num n3">3</div>
+          <div class="title">
+            <h3>Costa del Pacífico (Cucao, Muelle de las Almas)</h3>
+            <div class="date">Lunes</div>
+          </div>
+          <span class="badge">~120 km</span>
+        </div>
+        <div class="stop"><div class="i">3.1</div><div class="d"><div class="n">Cucao - Playa</div><div class="t">10:30</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">3.2</div><div class="d"><div class="n">Muelle de las Almas</div><div class="t">12:00 (trek ~40 min)</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">3.3</div><div class="d"><div class="n">Lago Huillinco</div><div class="t">17:00</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">3.4</div><div class="d"><div class="n">Cabaña (Nercón–Chonchi)</div><div class="t">19:00</div></div><div class="pet ok">✓</div></div>
+      </article>
+
+      <!-- DÍA 4 -->
+      <article class="card d4">
+        <div class="head">
+          <div class="num n4">4</div>
+          <div class="title">
+            <h3>Quemchi & Aucar → Caulín → Chacao → Llanquihue</h3>
+            <div class="date">Martes</div>
+          </div>
+          <span class="badge">~300 km</span>
+        </div>
+        <div class="stop"><div class="i">4.1</div><div class="d"><div class="n">Cabaña (Check-out)</div><div class="t">09:00</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">4.2</div><div class="d"><div class="n">Quemchi - Plaza/Costanera</div><div class="t">11:30</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">4.3</div><div class="d"><div class="n">Islotes Aucar - Puente</div><div class="t">12:15</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">4.4</div><div class="d"><div class="n">Caulín - Ostras</div><div class="t">13:30</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">4.5</div><div class="d"><div class="n">Chacao - Ferry</div><div class="t">15:00</div></div><div class="pet car">🚗</div></div>
+        <div class="stop"><div class="i">4.6</div><div class="d"><div class="n">Llanquihue - Check-in</div><div class="t">17:00</div></div><div class="pet ok">✓</div></div>
+      </article>
+
+      <!-- DÍA 5 -->
+      <article class="card d5">
+        <div class="head">
+          <div class="num n5">5</div>
+          <div class="title">
+            <h3>Llanquihue, Frutillar, Octay, Petrohué</h3>
+            <div class="date">Miércoles</div>
+          </div>
+          <span class="badge">~180 km</span>
+        </div>
+        <div class="stop"><div class="i">5.1</div><div class="d"><div class="n">Frutillar - Teatro del Lago</div><div class="t">10:00</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">5.2</div><div class="d"><div class="n">Puerto Octay</div><div class="t">12:00</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">5.3</div><div class="d"><div class="n">Saltos del Petrohué</div><div class="t">14:30 ⚠️ Sin Roque (Parque Nacional)</div></div><div class="pet no">✗</div></div>
+        <div class="stop"><div class="i">5.4</div><div class="d"><div class="n">Lago Todos los Santos (playa Petrohué)</div><div class="t">16:00</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">5.5</div><div class="d"><div class="n">Llanquihue - Regreso</div><div class="t">18:00</div></div><div class="pet ok">✓</div></div>
+      </article>
+
+      <!-- DÍA 6 -->
+      <article class="card d6">
+        <div class="head">
+          <div class="num n6">6</div>
+          <div class="title">
+            <h3>Valdivia y regreso a Traiguén</h3>
+            <div class="date">Jueves</div>
+          </div>
+          <span class="badge">~520 km</span>
+        </div>
+        <div class="stop"><div class="i">6.1</div><div class="d"><div class="n">Llanquihue (Check-out)</div><div class="t">08:00</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">6.2</div><div class="d"><div class="n">Valdivia - Mercado Fluvial</div><div class="t">13:00</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">6.3</div><div class="d"><div class="n">Valdivia - Lobos Marinos</div><div class="t">14:00</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">6.4</div><div class="d"><div class="n">Costanera de Valdivia</div><div class="t">15:00-17:00</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">6.5</div><div class="d"><div class="n">Traiguén - Llegada</div><div class="t">21:00</div></div><div class="pet ok">✓</div></div>
+      </article>
+    </div>
+
+    <div class="legend" aria-label="Leyenda de mascotas">
+      <div class="row"><span class="ico">✓</span><span>Roque puede entrar</span></div>
+      <div class="row"><span class="ico">✗</span><span>Prohibido mascotas (Parques CONAF)</span></div>
+      <div class="row"><span class="ico">🚗🐕</span><span>Revisar actividad adicional con mi 🐕</span></div>
+    </div>
+  </section>
+
+  <button class="fab" id="fabToggle">🗒️ Ver Cronograma</button>
+
+  <script>
+    // --- Tabs interaction ---
+    const btns = document.querySelectorAll('.tab-btn');
+    const views = document.querySelectorAll('.view');
+    let active = '#vista-mapa';
+
+    function setActive(target){
+      views.forEach(v => v.classList.toggle('active', '#'+v.id === target));
+      btns.forEach(b => b.classList.toggle('active', b.dataset.target === target));
+      active = target;
+      document.getElementById('fabToggle').textContent = active === '#vista-mapa' ? '🗒️ Ver Cronograma' : '🗺️ Ver Mapa';
+      if(active === '#vista-mapa'){ setTimeout(() => map.invalidateSize(), 150); }
+      try{ localStorage.setItem('ruta_tab', active); }catch(e){}
+    }
+
+    btns.forEach(b => b.addEventListener('click', () => setActive(b.dataset.target)));
+    document.getElementById('fabToggle').addEventListener('click', () => {
+      setActive(active === '#vista-mapa' ? '#vista-crono' : '#vista-mapa');
+    });
+
+    try{
+      const last = localStorage.getItem('ruta_tab');
+      if(last && document.querySelector(last)){ setActive(last); }
+    }catch(e){}
+
+    // --- Leaflet Map ---
+    const map = L.map('map', { zoomControl: true }).setView([-41.9, -73.6], 8);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors',
+      maxZoom: 18
+    }).addTo(map);
+
+    const dayColors = {1:'#FF6B6B',2:'#4ECDC4',3:'#45B7D1',4:'#96CEB4',5:'#FECA57',6:'#9B59B6'};
+
+    function icon(day, stop, color){
+      return L.divIcon({
+        html:`<div style="background:${color};color:#fff;width:34px;height:34px;border-radius:50%;
+                display:flex;align-items:center;justify-content:center;font-weight:800;
+                border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,.3);font-size:12px">
+                ${day}.${stop}</div>`,
+        iconSize:[34,34],iconAnchor:[17,17],popupAnchor:[0,-17]
+      });
+    }
+
+    // Midpoint base between Nercón and Chonchi
+    const BASE = { name:"Base (Nercón–Chonchi)", lat:-42.5564, lng:-73.79635 };
+
+    const locs = [
+      // DÍA 1
+      {day:1,stop:1,name:"Traiguén (Inicio)",lat:-38.2494,lng:-72.6703,time:"Vie 21:00",pet:true},
+      {day:1,stop:2,name:"Puerto Montt",lat:-41.4693,lng:-72.9424,time:"06:00",pet:true},
+      {day:1,stop:3,name:"Pargua - Ferry",lat:-41.7938,lng:-73.4428,time:"08:30",pet:"car",note:"Roque en auto"},
+      {day:1,stop:4,name:"Ancud (centro)",lat:-41.8697,lng:-73.8203,time:"11:00",pet:true},
+      {day:1,stop:5,name:"Puñihuil - Pingüinos",lat:-41.9340,lng:-74.0580,time:"14:00",pet:true},
+      {day:1,stop:6,name:"Castro - Palafitos Gamboa",lat:-42.4863,lng:-73.7640,time:"18:00",pet:true},
+      {day:1,stop:7,name:BASE.name,lat:BASE.lat,lng:BASE.lng,time:"19:30 Check-in",pet:true},
+
+      // DÍA 2 (Correcto: Base → Chonchi → Vilupulli → Nercón → Dalcahue → Achao → Base)
+      {day:2,stop:1,name:BASE.name,lat:BASE.lat,lng:BASE.lng,time:"08:30 Salida",pet:true},
+      {day:2,stop:2,name:"Chonchi - Plaza e Iglesia",lat:-42.6217,lng:-73.7732,time:"09:00",pet:true},
+      {day:2,stop:3,name:"Vilupulli - Iglesia",lat:-42.5558,lng:-73.7353,time:"10:00",pet:true},
+      {day:2,stop:4,name:"Nercón - Iglesia patrimonial",lat:-42.5201,lng:-73.7833,time:"10:45",pet:true},
+      {day:2,stop:5,name:"Dalcahue - Curanto en hoyo",lat:-42.3729,lng:-73.6525,time:"12:30-13:30",pet:true},
+      {day:2,stop:6,name:"Achao - Iglesia & paseo",lat:-42.4667,lng:-73.4894,time:"15:00",pet:true},
+      {day:2,stop:7,name:BASE.name,lat:BASE.lat,lng:BASE.lng,time:"18:30",pet:true},
+
+      // DÍA 3 (Pacífico)
+      {day:3,stop:1,name:"Cucao - Playa",lat:-42.6390,lng:-74.1080,time:"10:30",pet:true},
+      {day:3,stop:2,name:"Muelle de las Almas",lat:-42.7725,lng:-74.1419,time:"12:00",pet:true,note:"Trek ~40 min"},
+      {day:3,stop:3,name:"Lago Huillinco",lat:-42.6610,lng:-73.9500,time:"17:00",pet:true},
+      {day:3,stop:4,name:BASE.name,lat:BASE.lat,lng:BASE.lng,time:"19:00",pet:true},
+
+      // DÍA 4 (Quemchi & Aucar → Caulín → Chacao → Llanquihue)
+      {day:4,stop:1,name:BASE.name,lat:BASE.lat,lng:BASE.lng,time:"09:00 Check-out",pet:true},
+      {day:4,stop:2,name:"Quemchi - Plaza",lat:-42.1438,lng:-73.4768,time:"11:30",pet:true},
+      {day:4,stop:3,name:"Islotes Aucar - Puente",lat:-42.1453,lng:-73.4840,time:"12:15",pet:true},
+      {day:4,stop:4,name:"Caulín - Ostras",lat:-41.8049,lng:-73.5669,time:"13:30",pet:true},
+      {day:4,stop:5,name:"Chacao - Ferry",lat:-41.8219,lng:-73.4928,time:"15:00",pet:"car"},
+      {day:4,stop:6,name:"Llanquihue (Check-in)",lat:-41.2585,lng:-73.0081,time:"17:00",pet:true},
+
+      // DÍA 5 (Lagos y volcanes)
+      {day:5,stop:1,name:"Frutillar - Teatro del Lago",lat:-41.1263,lng:-73.0637,time:"10:00",pet:true},
+      {day:5,stop:2,name:"Puerto Octay",lat:-40.9756,lng:-72.8862,time:"12:00",pet:true},
+      {day:5,stop:3,name:"Saltos del Petrohué",lat:-41.1564,lng:-72.4235,time:"14:30",pet:false,note:"Sin mascotas (Parque Nacional)"},
+      {day:5,stop:4,name:"Lago Todos los Santos (Petrohue)",lat:-41.1523,lng:-72.3279,time:"16:00",pet:true},
+      {day:5,stop:5,name:"Llanquihue - Regreso",lat:-41.2585,lng:-73.0081,time:"18:00",pet:true},
+
+      // DÍA 6 (Valdivia → Traiguén)
+      {day:6,stop:1,name:"Valdivia - Mercado Fluvial",lat:-39.8149,lng:-73.2488,time:"13:00",pet:true},
+      {day:6,stop:2,name:"Traiguén (Llegada)",lat:-38.2494,lng:-72.6703,time:"21:00",pet:true}
+    ];
+
+    // Render markers
+    locs.forEach(loc=>{
+      const ic = icon(loc.day, loc.stop, dayColors[loc.day]);
+      let pet = '';
+      if(loc.pet===true) pet = '<span style="color:#16a34a;font-weight:700">✓ Roque puede entrar</span>';
+      else if(loc.pet===false) pet = '<span style="color:#dc2626;font-weight:700">✗ Sin mascotas</span>';
+      else if(loc.pet==='car') pet = '<span style="color:#d97706;font-weight:700">🚗 Roque en el auto</span>';
+      const note = loc.note ? `<br><em style="font-size:12px">${loc.note}</em>` : '';
+      L.marker([loc.lat,loc.lng],{icon:ic}).addTo(map)
+        .bindPopup(`<div style="font-weight:800;font-size:15px;margin-bottom:4px">Día ${loc.day}.${loc.stop}: ${loc.name}</div>
+                    <div style="font-size:13px;color:#6b7280">⏰ ${loc.time}</div>
+                    <div style="margin-top:6px">${pet}${note}</div>`);
+    });
+
+    // Routes per day
+    const routes = {
+      1:[[-38.2494,-72.6703],[-41.4693,-72.9424],[-41.7938,-73.4428],[-41.8697,-73.8203],[-41.9340,-74.0580],[-42.4863,-73.7640],[-42.5564,-73.79635]],
+      2:[[-42.5564,-73.79635],[-42.6217,-73.7732],[-42.5558,-73.7353],[-42.5201,-73.7833],[-42.3729,-73.6525],[-42.4667,-73.4894],[-42.5564,-73.79635]],
+      3:[[-42.5564,-73.79635],[-42.6390,-74.1080],[-42.7725,-74.1419],[-42.6610,-73.9500],[-42.5564,-73.79635]],
+      4:[[-42.5564,-73.79635],[-42.1438,-73.4768],[-42.1453,-73.4840],[-41.8049,-73.5669],[-41.8219,-73.4928],[-41.2585,-73.0081]],
+      5:[[-41.2585,-73.0081],[-41.1263,-73.0637],[-40.9756,-72.8862],[-41.1564,-72.4235],[-41.1523,-72.3279],[-41.2585,-73.0081]],
+      6:[[-41.2585,-73.0081],[-39.8149,-73.2488],[-38.2494,-72.6703]]
+    };
+
+    Object.keys(routes).forEach(day=>{
+      const dash = day==='1' ? '10,8' : (day==='6' ? '6,4' : null);
+      L.polyline(routes[day],{color:dayColors[day],weight:4,opacity:.6,dashArray:dash}).addTo(map);
+    });
+
+    const bounds = L.latLngBounds(locs.map(l=>[l.lat,l.lng]));
+    map.fitBounds(bounds.pad(0.12));
+  </script>
+</body>
+</html>
