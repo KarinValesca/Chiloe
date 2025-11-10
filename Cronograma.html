@@ -61,8 +61,8 @@
     <div id="map" aria-label="Mapa de ruta"></div>
     <div class="summary" aria-label="Resumen del viaje">
       <div class="kpi"><div class="v">6</div><div class="l">Días</div></div>
-      <div class="kpi"><div class="v">30</div><div class="l">Paradas</div></div>
-      <div class="kpi"><div class="v">≈2,200</div><div class="l">Km totales</div></div>
+      <div class="kpi"><div class="v">31</div><div class="l">Paradas</div></div>
+      <div class="kpi"><div class="v">≈2,210</div><div class="l">Km totales</div></div>
       <div class="kpi"><div class="v">3 + 2</div><div class="l">Noches (Base + Llanquihue)</div></div>
     </div>
   </section>
@@ -112,15 +112,16 @@
         <div class="head">
           <div class="num n3">3</div>
           <div class="title">
-            <h3>Costa del Pacífico (Cucao, Muelle de las Almas)</h3>
+            <h3>Costa del Pacífico (Cucao, Muelle de las Almas, Muelle del Tiempo)</h3>
             <div class="date">Lunes</div>
           </div>
-          <span class="badge">~120 km</span>
+          <span class="badge">~130 km</span>
         </div>
         <div class="stop"><div class="i">3.1</div><div class="d"><div class="n">Cucao - Playa</div><div class="t">10:30</div></div><div class="pet ok">✓</div></div>
         <div class="stop"><div class="i">3.2</div><div class="d"><div class="n">Muelle de las Almas</div><div class="t">12:00 (trek ~40 min)</div></div><div class="pet ok">✓</div></div>
-        <div class="stop"><div class="i">3.3</div><div class="d"><div class="n">Lago Huillinco</div><div class="t">17:00</div></div><div class="pet ok">✓</div></div>
-        <div class="stop"><div class="i">3.4</div><div class="d"><div class="n">Cabaña (Nercón–Chonchi)</div><div class="t">19:00</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">3.3</div><div class="d"><div class="n">Muelle del Tiempo</div><div class="t">14:00 (trek ~40 min)</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">3.4</div><div class="d"><div class="n">Lago Huillinco</div><div class="t">17:00</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">3.5</div><div class="d"><div class="n">Cabaña (Nercón–Chonchi)</div><div class="t">19:00</div></div><div class="pet ok">✓</div></div>
       </article>
 
       <!-- DÍA 4 -->
@@ -255,8 +256,9 @@
       // DÍA 3 (Pacífico)
       {day:3,stop:1,name:"Cucao - Playa",lat:-42.6390,lng:-74.1080,time:"10:30",pet:true},
       {day:3,stop:2,name:"Muelle de las Almas",lat:-42.7725,lng:-74.1419,time:"12:00",pet:true,note:"Trek ~40 min"},
-      {day:3,stop:3,name:"Lago Huillinco",lat:-42.6610,lng:-73.9500,time:"17:00",pet:true},
-      {day:3,stop:4,name:BASE.name,lat:BASE.lat,lng:BASE.lng,time:"19:00",pet:true},
+      {day:3,stop:3,name:"Muelle del Tiempo",lat:-42.7500,lng:-74.1833,time:"14:00",pet:true,note:"Trek ~40 min"},
+      {day:3,stop:4,name:"Lago Huillinco",lat:-42.6610,lng:-73.9500,time:"17:00",pet:true},
+      {day:3,stop:5,name:BASE.name,lat:BASE.lat,lng:BASE.lng,time:"19:00",pet:true},
 
       // DÍA 4 (Quemchi & Aucar → Caulín → Chacao → Llanquihue)
       {day:4,stop:1,name:BASE.name,lat:BASE.lat,lng:BASE.lng,time:"09:00 Check-out",pet:true},
@@ -296,7 +298,7 @@
     const routes = {
       1:[[-38.2494,-72.6703],[-41.4693,-72.9424],[-41.7938,-73.4428],[-41.8697,-73.8203],[-41.9340,-74.0580],[-42.4863,-73.7640],[-42.5564,-73.79635]],
       2:[[-42.5564,-73.79635],[-42.6217,-73.7732],[-42.5558,-73.7353],[-42.5201,-73.7833],[-42.3729,-73.6525],[-42.4667,-73.4894],[-42.5564,-73.79635]],
-      3:[[-42.5564,-73.79635],[-42.6390,-74.1080],[-42.7725,-74.1419],[-42.6610,-73.9500],[-42.5564,-73.79635]],
+      3:[[-42.5564,-73.79635],[-42.6390,-74.1080],[-42.7725,-74.1419],[-42.7500,-74.1833],[-42.6610,-73.9500],[-42.5564,-73.79635]],
       4:[[-42.5564,-73.79635],[-42.1438,-73.4768],[-42.1453,-73.4840],[-41.8049,-73.5669],[-41.8219,-73.4928],[-41.2585,-73.0081]],
       5:[[-41.2585,-73.0081],[-41.1263,-73.0637],[-40.9756,-72.8862],[-41.1564,-72.4235],[-41.1523,-72.3279],[-41.2585,-73.0081]],
       6:[[-41.2585,-73.0081],[-39.8149,-73.2488],[-38.2494,-72.6703]]
