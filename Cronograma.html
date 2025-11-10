@@ -61,9 +61,24 @@
     <div id="map" aria-label="Mapa de ruta"></div>
     <div class="summary" aria-label="Resumen del viaje">
       <div class="kpi"><div class="v">6</div><div class="l">Días</div></div>
-      <div class="kpi"><div class="v">38</div><div class="l">Paradas</div></div>
-      <div class="kpi"><div class="v">≈1,510</div><div class="l">Km totales</div></div>
-      <div class="kpi"><div class="v">3 + 2</div><div class="l">Noches (Base + Llanquihue)</div></div>
+      <div class="kpi"><div class="v" id="kpi-paradas">38</div><div class="l">Paradas</div></div>
+      <div class="kpi"><div class="v" id="kpi-km">≈1,510</div><div class="l">Km totales</div></div>
+      <div class="kpi"><div class="v" id="kpi-noches">3 + 2</div><div class="l">Noches</div></div>
+    </div>
+
+    <div class="route-selector" style="background:#fff;border-radius:14px;padding:16px;margin:12px;box-shadow:var(--shadow)">
+      <h3 style="font-size:15px;font-weight:800;margin-bottom:10px;color:var(--text)">🗺️ Elige tu ruta (Días 4-6):</h3>
+      <div style="display:flex;gap:8px;margin-bottom:8px">
+        <button class="route-btn active" data-route="option1" style="flex:1;border:2px solid var(--azul);background:linear-gradient(135deg,#eef2ff,#ede9fe);color:#374151;padding:10px;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer">
+          Opción 1: Angelmó→P.Varas→Frutillar
+        </button>
+        <button class="route-btn" data-route="option2" style="flex:1;border:2px solid #e5e7eb;background:#fff;color:var(--muted);padding:10px;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer">
+          Opción 2: P.Montt→Ensenada→Ralún
+        </button>
+      </div>
+      <p style="font-size:12px;color:var(--muted);line-height:1.4" id="route-description">
+        <strong>Opción 1:</strong> Angelmó, Isla Tenglo, Puerto Varas, Llanquihue, Frutillar, Petrohué, Puerto Octay, Osorno, Valdivia
+      </p>
     </div>
   </section>
 
@@ -124,8 +139,8 @@
         <div class="stop"><div class="i">3.5</div><div class="d"><div class="n">Cabaña (Nercón–Chonchi)</div><div class="t">19:00</div></div><div class="pet ok">✓</div></div>
       </article>
 
-      <!-- DÍA 4 -->
-      <article class="card d4">
+      <!-- OPCIÓN 1: DÍA 4 -->
+      <article class="card d4 route-option1">
         <div class="head">
           <div class="num n4">4</div>
           <div class="title">
@@ -143,8 +158,8 @@
         <div class="stop"><div class="i">4.7</div><div class="d"><div class="n">Frutillar - Teatro del Lago & costanera</div><div class="t">17:00-19:30</div></div><div class="pet ok">✓</div></div>
       </article>
 
-      <!-- DÍA 5 -->
-      <article class="card d5">
+      <!-- OPCIÓN 1: DÍA 5 -->
+      <article class="card d5 route-option1">
         <div class="head">
           <div class="num n5">5</div>
           <div class="title">
@@ -161,8 +176,8 @@
         <div class="stop"><div class="i">5.6</div><div class="d"><div class="n">Llanquihue - Regreso</div><div class="t">17:00</div></div><div class="pet ok">✓</div></div>
       </article>
 
-      <!-- DÍA 6 -->
-      <article class="card d6">
+      <!-- OPCIÓN 1: DÍA 6 -->
+      <article class="card d6 route-option1">
         <div class="head">
           <div class="num n6">6</div>
           <div class="title">
@@ -177,6 +192,62 @@
         <div class="stop"><div class="i">6.4</div><div class="d"><div class="n">Valdivia - Almuerzo mariscos</div><div class="t">13:00-14:00</div></div><div class="pet ok">✓</div></div>
         <div class="stop"><div class="i">6.5</div><div class="d"><div class="n">Valdivia - Costanera & Torreones</div><div class="t">14:00-15:00</div></div><div class="pet ok">✓</div></div>
         <div class="stop"><div class="i">6.6</div><div class="d"><div class="n">Traiguén - Llegada</div><div class="t">18:30</div></div><div class="pet ok">✓</div></div>
+      </article>
+
+      <!-- OPCIÓN 2: DÍA 4 -->
+      <article class="card d4 route-option2" style="display:none">
+        <div class="head">
+          <div class="num n4">4</div>
+          <div class="title">
+            <h3>Castro → Puerto Montt → Puerto Varas → Ensenada</h3>
+            <div class="date">Martes</div>
+          </div>
+          <span class="badge">~160 km</span>
+        </div>
+        <div class="stop"><div class="i">4.1</div><div class="d"><div class="n">Cabaña (Check-out)</div><div class="t">07:00</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">4.2</div><div class="d"><div class="n">Ferry Chacao</div><div class="t">08:00-08:30</div></div><div class="pet car">🚗</div></div>
+        <div class="stop"><div class="i">4.3</div><div class="d"><div class="n">Angelmó - Mercado & lobos marinos</div><div class="t">10:00-11:45</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">4.4</div><div class="d"><div class="n">Isla Tenglo (opcional)</div><div class="t">11:45-12:45</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">4.5</div><div class="d"><div class="n">Puerto Varas - Almuerzo & plaza</div><div class="t">12:30-15:30</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">4.6</div><div class="d"><div class="n">Ensenada - Check-in & playa</div><div class="t">16:15-19:00</div></div><div class="pet ok">✓</div></div>
+      </article>
+
+      <!-- OPCIÓN 2: DÍA 5 -->
+      <article class="card d5 route-option2" style="display:none">
+        <div class="head">
+          <div class="num n5">5</div>
+          <div class="title">
+            <h3>Ensenada → Petrohué → Todos los Santos → Ralún → Puerto Octay → Llanquihue</h3>
+            <div class="date">Miércoles</div>
+          </div>
+          <span class="badge">~180 km</span>
+        </div>
+        <div class="stop"><div class="i">5.1</div><div class="d"><div class="n">Ensenada (Check-out)</div><div class="t">08:00</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">5.2</div><div class="d"><div class="n">Saltos del Petrohué</div><div class="t">08:30-11:00 ⚠️ Sin Roque</div></div><div class="pet no">✗</div></div>
+        <div class="stop"><div class="i">5.3</div><div class="d"><div class="n">Lago Todos los Santos</div><div class="t">11:15-12:30</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">5.4</div><div class="d"><div class="n">Almuerzo Petrohué</div><div class="t">12:30-13:30</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">5.5</div><div class="d"><div class="n">Ralún - Estuario Reloncaví</div><div class="t">14:00-15:00</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">5.6</div><div class="d"><div class="n">Puerto Octay - Costanera & plaza</div><div class="t">16:00-17:30</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">5.7</div><div class="d"><div class="n">Llanquihue - Check-in & atardecer</div><div class="t">18:00-20:00</div></div><div class="pet ok">✓</div></div>
+      </article>
+
+      <!-- OPCIÓN 2: DÍA 6 -->
+      <article class="card d6 route-option2" style="display:none">
+        <div class="head">
+          <div class="num n6">6</div>
+          <div class="title">
+            <h3>Llanquihue → Frutillar → Osorno → Valdivia → Traiguén</h3>
+            <div class="date">Jueves</div>
+          </div>
+          <span class="badge">~490 km</span>
+        </div>
+        <div class="stop"><div class="i">6.1</div><div class="d"><div class="n">Llanquihue (Check-out)</div><div class="t">07:30</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">6.2</div><div class="d"><div class="n">Frutillar - Teatro del Lago & costanera</div><div class="t">08:00-09:30</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">6.3</div><div class="d"><div class="n">Osorno - Plaza de Armas & café</div><div class="t">10:15-11:00</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">6.4</div><div class="d"><div class="n">Valdivia - Mercado Fluvial (lobos marinos)</div><div class="t">12:15-14:15</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">6.5</div><div class="d"><div class="n">Valdivia - Almuerzo mariscos</div><div class="t">14:15-15:00</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">6.6</div><div class="d"><div class="n">Valdivia - Costanera & Torreones</div><div class="t">15:00-15:30</div></div><div class="pet ok">✓</div></div>
+        <div class="stop"><div class="i">6.7</div><div class="d"><div class="n">Traiguén - Llegada</div><div class="t">18:30</div></div><div class="pet ok">✓</div></div>
       </article>
     </div>
 
@@ -237,7 +308,13 @@
     // Midpoint base between Nercón and Chonchi
     const BASE = { name:"Base (Nercón–Chonchi)", lat:-42.5564, lng:-73.79635 };
 
-    const locs = [
+    // --- State management ---
+    let currentRoute = 'option1';
+    let markers = [];
+    let polylines = [];
+
+    // Common locations (Days 1-3)
+    const commonLocs = [
       // DÍA 1
       {day:1,stop:1,name:"Traiguén (Inicio)",lat:-38.2494,lng:-72.6703,time:"Vie 21:00",pet:true},
       {day:1,stop:2,name:"Puerto Montt",lat:-41.4693,lng:-72.9424,time:"06:00",pet:true},
@@ -261,8 +338,11 @@
       {day:3,stop:2,name:"Muelle de las Almas",lat:-42.7725,lng:-74.1419,time:"12:00",pet:true,note:"Trek ~40 min"},
       {day:3,stop:3,name:"Muelle del Tiempo",lat:-42.7500,lng:-74.1833,time:"14:00",pet:true,note:"Trek ~40 min"},
       {day:3,stop:4,name:"Lago Huillinco",lat:-42.6610,lng:-73.9500,time:"17:00",pet:true},
-      {day:3,stop:5,name:BASE.name,lat:BASE.lat,lng:BASE.lng,time:"19:00",pet:true},
+      {day:3,stop:5,name:BASE.name,lat:BASE.lat,lng:BASE.lng,time:"19:00",pet:true}
+    ];
 
+    // OPTION 1 locations (Days 4-6)
+    const option1Locs = [
       // DÍA 4 (Chiloé → Angelmó/Tenglo → Puerto Varas → Llanquihue → Frutillar)
       {day:4,stop:1,name:BASE.name,lat:BASE.lat,lng:BASE.lng,time:"07:00 Check-out",pet:true},
       {day:4,stop:2,name:"Chacao - Ferry",lat:-41.8219,lng:-73.4928,time:"08:00",pet:"car"},
@@ -289,37 +369,167 @@
       {day:6,stop:6,name:"Traiguén (Llegada)",lat:-38.2494,lng:-72.6703,time:"18:30",pet:true}
     ];
 
-    // Render markers
-    locs.forEach(loc=>{
-      const ic = icon(loc.day, loc.stop, dayColors[loc.day]);
-      let pet = '';
-      if(loc.pet===true) pet = '<span style="color:#16a34a;font-weight:700">✓ Roque puede entrar</span>';
-      else if(loc.pet===false) pet = '<span style="color:#dc2626;font-weight:700">✗ Sin mascotas</span>';
-      else if(loc.pet==='car') pet = '<span style="color:#d97706;font-weight:700">🚗 Roque en el auto</span>';
-      const note = loc.note ? `<br><em style="font-size:12px">${loc.note}</em>` : '';
-      L.marker([loc.lat,loc.lng],{icon:ic}).addTo(map)
-        .bindPopup(`<div style="font-weight:800;font-size:15px;margin-bottom:4px">Día ${loc.day}.${loc.stop}: ${loc.name}</div>
-                    <div style="font-size:13px;color:#6b7280">⏰ ${loc.time}</div>
-                    <div style="margin-top:6px">${pet}${note}</div>`);
-    });
+    // OPTION 2 locations (Days 4-6) - Ralún: -41.3747, -72.3189
+    const option2Locs = [
+      // DÍA 4 (Castro → Puerto Montt → Puerto Varas → Ensenada)
+      {day:4,stop:1,name:BASE.name,lat:BASE.lat,lng:BASE.lng,time:"07:00 Check-out",pet:true},
+      {day:4,stop:2,name:"Ferry Chacao",lat:-41.8219,lng:-73.4928,time:"08:00-08:30",pet:"car"},
+      {day:4,stop:3,name:"Angelmó - Mercado & lobos marinos",lat:-41.48526,lng:-72.9622,time:"10:00-11:45",pet:true},
+      {day:4,stop:4,name:"Isla Tenglo (opcional)",lat:-41.5022,lng:-72.9772,time:"11:45-12:45",pet:true},
+      {day:4,stop:5,name:"Puerto Varas - Almuerzo & plaza",lat:-41.31784,lng:-72.98272,time:"12:30-15:30",pet:true},
+      {day:4,stop:6,name:"Ensenada - Check-in & playa",lat:-41.19,lng:-72.54,time:"16:15-19:00",pet:true},
 
-    // Routes per day
-    const routes = {
+      // DÍA 5 (Ensenada → Petrohué → Todos los Santos → Ralún → Puerto Octay → Llanquihue)
+      {day:5,stop:1,name:"Ensenada (Check-out)",lat:-41.19,lng:-72.54,time:"08:00",pet:true},
+      {day:5,stop:2,name:"Saltos del Petrohué",lat:-41.173,lng:-72.448,time:"08:30-11:00",pet:false,note:"Sin mascotas (Parque Nacional)"},
+      {day:5,stop:3,name:"Lago Todos los Santos",lat:-41.1523,lng:-72.3279,time:"11:15-12:30",pet:true},
+      {day:5,stop:4,name:"Almuerzo Petrohué",lat:-41.173,lng:-72.448,time:"12:30-13:30",pet:true},
+      {day:5,stop:5,name:"Ralún - Estuario Reloncaví",lat:-41.3747,lng:-72.3189,time:"14:00-15:00",pet:true},
+      {day:5,stop:6,name:"Puerto Octay - Costanera & plaza",lat:-40.9756,lng:-72.8862,time:"16:00-17:30",pet:true},
+      {day:5,stop:7,name:"Llanquihue - Check-in & atardecer",lat:-41.2585,lng:-73.0081,time:"18:00-20:00",pet:true},
+
+      // DÍA 6 (Llanquihue → Frutillar → Osorno → Valdivia → Traiguén)
+      {day:6,stop:1,name:"Llanquihue (Check-out)",lat:-41.2585,lng:-73.0081,time:"07:30",pet:true},
+      {day:6,stop:2,name:"Frutillar - Teatro del Lago & costanera",lat:-41.1263,lng:-73.0637,time:"08:00-09:30",pet:true},
+      {day:6,stop:3,name:"Osorno - Plaza de Armas & café",lat:-40.5736,lng:-73.13563,time:"10:15-11:00",pet:true},
+      {day:6,stop:4,name:"Valdivia - Mercado Fluvial (lobos marinos)",lat:-39.8142,lng:-73.2459,time:"12:15-14:15",pet:true},
+      {day:6,stop:5,name:"Valdivia - Almuerzo mariscos",lat:-39.8142,lng:-73.2459,time:"14:15-15:00",pet:true},
+      {day:6,stop:6,name:"Valdivia - Costanera & Torreones",lat:-39.8142,lng:-73.2459,time:"15:00-15:30",pet:true},
+      {day:6,stop:7,name:"Traiguén (Llegada)",lat:-38.2494,lng:-72.6703,time:"18:30",pet:true}
+    ];
+
+    // Combine current route
+    let locs = [...commonLocs, ...(currentRoute === 'option1' ? option1Locs : option2Locs)];
+
+    // Render markers function
+    function renderMarkers() {
+      // Clear existing markers
+      markers.forEach(m => map.removeLayer(m));
+      markers = [];
+
+      const locsToRender = [...commonLocs, ...(currentRoute === 'option1' ? option1Locs : option2Locs)];
+
+      locsToRender.forEach(loc=>{
+        const ic = icon(loc.day, loc.stop, dayColors[loc.day]);
+        let pet = '';
+        if(loc.pet===true) pet = '<span style="color:#16a34a;font-weight:700">✓ Roque puede entrar</span>';
+        else if(loc.pet===false) pet = '<span style="color:#dc2626;font-weight:700">✗ Sin mascotas</span>';
+        else if(loc.pet==='car') pet = '<span style="color:#d97706;font-weight:700">🚗 Roque en el auto</span>';
+        const note = loc.note ? `<br><em style="font-size:12px">${loc.note}</em>` : '';
+        const marker = L.marker([loc.lat,loc.lng],{icon:ic}).addTo(map)
+          .bindPopup(`<div style="font-weight:800;font-size:15px;margin-bottom:4px">Día ${loc.day}.${loc.stop}: ${loc.name}</div>
+                      <div style="font-size:13px;color:#6b7280">⏰ ${loc.time}</div>
+                      <div style="margin-top:6px">${pet}${note}</div>`);
+        markers.push(marker);
+      });
+    }
+
+    // Routes - Common routes (Days 1-3)
+    const commonRoutes = {
       1:[[-38.2494,-72.6703],[-41.4693,-72.9424],[-41.7938,-73.4428],[-41.8697,-73.8203],[-41.9340,-74.0580],[-42.4863,-73.7640],[-42.5564,-73.79635]],
       2:[[-42.5564,-73.79635],[-42.6217,-73.7732],[-42.5558,-73.7353],[-42.5201,-73.7833],[-42.3729,-73.6525],[-42.4667,-73.4894],[-42.5564,-73.79635]],
-      3:[[-42.5564,-73.79635],[-42.6390,-74.1080],[-42.7725,-74.1419],[-42.7500,-74.1833],[-42.6610,-73.9500],[-42.5564,-73.79635]],
+      3:[[-42.5564,-73.79635],[-42.6390,-74.1080],[-42.7725,-74.1419],[-42.7500,-74.1833],[-42.6610,-73.9500],[-42.5564,-73.79635]]
+    };
+
+    // Option 1 routes (Days 4-6)
+    const option1Routes = {
       4:[[-42.5564,-73.79635],[-41.8219,-73.4928],[-41.48526,-72.9622],[-41.5022,-72.9772],[-41.31784,-72.98272],[-41.2585,-73.0081],[-41.1263,-73.0637]],
       5:[[-41.2585,-73.0081],[-41.173,-72.448],[-41.19,-72.54],[-40.9756,-72.8862],[-41.2585,-73.0081]],
       6:[[-41.2585,-73.0081],[-40.5736,-73.13563],[-39.8142,-73.2459],[-38.2494,-72.6703]]
     };
 
-    Object.keys(routes).forEach(day=>{
-      const dash = day==='1' ? '10,8' : (day==='6' ? '6,4' : null);
-      L.polyline(routes[day],{color:dayColors[day],weight:4,opacity:.6,dashArray:dash}).addTo(map);
+    // Option 2 routes (Days 4-6)
+    const option2Routes = {
+      4:[[-42.5564,-73.79635],[-41.8219,-73.4928],[-41.48526,-72.9622],[-41.5022,-72.9772],[-41.31784,-72.98272],[-41.19,-72.54]],
+      5:[[-41.19,-72.54],[-41.173,-72.448],[-41.1523,-72.3279],[-41.173,-72.448],[-41.3747,-72.3189],[-40.9756,-72.8862],[-41.2585,-73.0081]],
+      6:[[-41.2585,-73.0081],[-41.1263,-73.0637],[-40.5736,-73.13563],[-39.8142,-73.2459],[-38.2494,-72.6703]]
+    };
+
+    // Render routes function
+    function renderRoutes() {
+      // Clear existing routes
+      polylines.forEach(p => map.removeLayer(p));
+      polylines = [];
+
+      const routesToRender = {...commonRoutes, ...(currentRoute === 'option1' ? option1Routes : option2Routes)};
+
+      Object.keys(routesToRender).forEach(day=>{
+        const dash = day==='1' ? '10,8' : (day==='6' ? '6,4' : null);
+        const polyline = L.polyline(routesToRender[day],{color:dayColors[day],weight:4,opacity:.6,dashArray:dash}).addTo(map);
+        polylines.push(polyline);
+      });
+
+      // Fit bounds
+      const locsForBounds = [...commonLocs, ...(currentRoute === 'option1' ? option1Locs : option2Locs)];
+      const bounds = L.latLngBounds(locsForBounds.map(l=>[l.lat,l.lng]));
+      map.fitBounds(bounds.pad(0.12));
+    }
+
+    // Switch route function
+    function switchRoute(route) {
+      currentRoute = route;
+
+      // Update buttons
+      document.querySelectorAll('.route-btn').forEach(btn => {
+        if(btn.dataset.route === route) {
+          btn.classList.add('active');
+          btn.style.border = '2px solid var(--azul)';
+          btn.style.background = 'linear-gradient(135deg,#eef2ff,#ede9fe)';
+          btn.style.color = '#374151';
+        } else {
+          btn.classList.remove('active');
+          btn.style.border = '2px solid #e5e7eb';
+          btn.style.background = '#fff';
+          btn.style.color = 'var(--muted)';
+        }
+      });
+
+      // Update HTML cards visibility
+      document.querySelectorAll('.route-option1').forEach(el => el.style.display = route === 'option1' ? 'block' : 'none');
+      document.querySelectorAll('.route-option2').forEach(el => el.style.display = route === 'option2' ? 'block' : 'none');
+
+      // Update description and KPIs
+      const desc = document.getElementById('route-description');
+      const kpiParadas = document.getElementById('kpi-paradas');
+      const kpiKm = document.getElementById('kpi-km');
+      const kpiNoches = document.getElementById('kpi-noches');
+
+      if(route === 'option1') {
+        desc.innerHTML = '<strong>Opción 1:</strong> Angelmó, Isla Tenglo, Puerto Varas, Llanquihue, Frutillar, Petrohué, Puerto Octay, Osorno, Valdivia';
+        kpiParadas.textContent = '38';
+        kpiKm.textContent = '≈1,510';
+        kpiNoches.textContent = '3 + 2';
+      } else {
+        desc.innerHTML = '<strong>Opción 2:</strong> Angelmó, Isla Tenglo, Puerto Varas, Ensenada, Petrohué, Todos los Santos, Ralún, Puerto Octay, Llanquihue, Frutillar, Osorno, Valdivia';
+        kpiParadas.textContent = '40';
+        kpiKm.textContent = '≈1,540';
+        kpiNoches.textContent = '3 + 1 + 1';
+      }
+
+      // Re-render map
+      renderMarkers();
+      renderRoutes();
+
+      // Save preference
+      try{ localStorage.setItem('route_option', route); }catch(e){}
+    }
+
+    // Event listeners for route buttons
+    document.querySelectorAll('.route-btn').forEach(btn => {
+      btn.addEventListener('click', () => switchRoute(btn.dataset.route));
     });
 
-    const bounds = L.latLngBounds(locs.map(l=>[l.lat,l.lng]));
-    map.fitBounds(bounds.pad(0.12));
+    // Initial render
+    renderMarkers();
+    renderRoutes();
+
+    // Load saved route option
+    try{
+      const savedRoute = localStorage.getItem('route_option');
+      if(savedRoute && (savedRoute === 'option1' || savedRoute === 'option2')) {
+        switchRoute(savedRoute);
+      }
+    }catch(e){}
   </script>
 </body>
 </html>
