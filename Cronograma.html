@@ -57,6 +57,21 @@
     <button class="tab-btn" data-target="#vista-crono" role="tab" aria-selected="false">🗒️ Cronograma</button>
   </nav>
 
+  <div class="route-selector" style="background:#fff;border-radius:14px;padding:16px;margin:12px;box-shadow:var(--shadow);position:sticky;top:138px;z-index:8">
+    <h3 style="font-size:15px;font-weight:800;margin-bottom:10px;color:var(--text)">🗺️ Elige tu ruta (Días 4-6):</h3>
+    <div style="display:flex;gap:8px;margin-bottom:8px">
+      <button class="route-btn active" data-route="option1" style="flex:1;border:2px solid var(--azul);background:linear-gradient(135deg,#eef2ff,#ede9fe);color:#374151;padding:10px;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer">
+        Opción 1: Angelmó→P.Varas→Frutillar
+      </button>
+      <button class="route-btn" data-route="option2" style="flex:1;border:2px solid #e5e7eb;background:#fff;color:var(--muted);padding:10px;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer">
+        Opción 2: P.Montt→Ensenada→Ralún
+      </button>
+    </div>
+    <p style="font-size:12px;color:var(--muted);line-height:1.4" id="route-description">
+      <strong>Opción 1:</strong> Angelmó, Isla Tenglo, Puerto Varas, Llanquihue, Frutillar, Petrohué, Puerto Octay, Osorno, Valdivia
+    </p>
+  </div>
+
   <section id="vista-mapa" class="view active" role="tabpanel" aria-labelledby="tab-mapa">
     <div id="map" aria-label="Mapa de ruta"></div>
     <div class="summary" aria-label="Resumen del viaje">
@@ -64,21 +79,6 @@
       <div class="kpi"><div class="v" id="kpi-paradas">38</div><div class="l">Paradas</div></div>
       <div class="kpi"><div class="v" id="kpi-km">≈1,510</div><div class="l">Km totales</div></div>
       <div class="kpi"><div class="v" id="kpi-noches">3 + 2</div><div class="l">Noches</div></div>
-    </div>
-
-    <div class="route-selector" style="background:#fff;border-radius:14px;padding:16px;margin:12px;box-shadow:var(--shadow)">
-      <h3 style="font-size:15px;font-weight:800;margin-bottom:10px;color:var(--text)">🗺️ Elige tu ruta (Días 4-6):</h3>
-      <div style="display:flex;gap:8px;margin-bottom:8px">
-        <button class="route-btn active" data-route="option1" style="flex:1;border:2px solid var(--azul);background:linear-gradient(135deg,#eef2ff,#ede9fe);color:#374151;padding:10px;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer">
-          Opción 1: Angelmó→P.Varas→Frutillar
-        </button>
-        <button class="route-btn" data-route="option2" style="flex:1;border:2px solid #e5e7eb;background:#fff;color:var(--muted);padding:10px;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer">
-          Opción 2: P.Montt→Ensenada→Ralún
-        </button>
-      </div>
-      <p style="font-size:12px;color:var(--muted);line-height:1.4" id="route-description">
-        <strong>Opción 1:</strong> Angelmó, Isla Tenglo, Puerto Varas, Llanquihue, Frutillar, Petrohué, Puerto Octay, Osorno, Valdivia
-      </p>
     </div>
   </section>
 
