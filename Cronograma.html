@@ -44,6 +44,13 @@
     .d4{border-left-color:#96CEB4}.n4{background:#96CEB4}
     .d5{border-left-color:#FECA57}.n5{background:#FECA57}
     .d6{border-left-color:#9B59B6}.n6{background:#9B59B6}
+    .route-selector{background:#fff;border-radius:14px;padding:16px;margin:12px;box-shadow:var(--shadow);position:sticky;top:138px;z-index:8}
+    .route-selector h3{font-size:15px;font-weight:800;margin-bottom:10px;color:var(--text)}
+    .route-buttons{display:flex;gap:8px;margin-bottom:8px}
+    .route-btn{flex:1;border:2px solid #e5e7eb;background:#fff;color:var(--muted);padding:10px;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;transition:all 0.2s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .route-btn.active{border:2px solid var(--azul);background:linear-gradient(135deg,#eef2ff,#ede9fe);color:#374151}
+    .route-description{font-size:12px;color:var(--muted);line-height:1.4}
+    @media (max-width:600px){.route-buttons{flex-direction:column;gap:10px}.route-btn{font-size:13px;padding:14px 12px;white-space:normal}.route-selector{top:120px;padding:12px}}
   </style>
 </head>
 <body>
@@ -57,17 +64,17 @@
     <button class="tab-btn" data-target="#vista-crono" role="tab" aria-selected="false">🗒️ Cronograma</button>
   </nav>
 
-  <div class="route-selector" style="background:#fff;border-radius:14px;padding:16px;margin:12px;box-shadow:var(--shadow);position:sticky;top:138px;z-index:8">
-    <h3 style="font-size:15px;font-weight:800;margin-bottom:10px;color:var(--text)">🗺️ Elige tu ruta (Días 4-6):</h3>
-    <div style="display:flex;gap:8px;margin-bottom:8px">
-      <button class="route-btn active" data-route="option1" style="flex:1;border:2px solid var(--azul);background:linear-gradient(135deg,#eef2ff,#ede9fe);color:#374151;padding:10px;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer">
-        Opción 1: Angelmó→P.Varas→Frutillar
+  <div class="route-selector">
+    <h3>🗺️ Elige tu ruta (Días 4-6):</h3>
+    <div class="route-buttons">
+      <button class="route-btn active" data-route="option1">
+        Opción 1: Llanquihue base
       </button>
-      <button class="route-btn" data-route="option2" style="flex:1;border:2px solid #e5e7eb;background:#fff;color:var(--muted);padding:10px;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer">
-        Opción 2: P.Montt→Ensenada→Ralún
+      <button class="route-btn" data-route="option2">
+        Opción 2: Ensenada noche
       </button>
     </div>
-    <p style="font-size:12px;color:var(--muted);line-height:1.4" id="route-description">
+    <p class="route-description" id="route-description">
       <strong>Opción 1:</strong> Angelmó, Isla Tenglo, Puerto Varas, Llanquihue, Frutillar, Petrohué, Puerto Octay, Osorno, Valdivia
     </p>
   </div>
@@ -473,14 +480,8 @@
       document.querySelectorAll('.route-btn').forEach(btn => {
         if(btn.dataset.route === route) {
           btn.classList.add('active');
-          btn.style.border = '2px solid var(--azul)';
-          btn.style.background = 'linear-gradient(135deg,#eef2ff,#ede9fe)';
-          btn.style.color = '#374151';
         } else {
           btn.classList.remove('active');
-          btn.style.border = '2px solid #e5e7eb';
-          btn.style.background = '#fff';
-          btn.style.color = 'var(--muted)';
         }
       });
 
